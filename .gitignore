@@ -11,3 +11,6 @@ node_modules
 # System Files
 .DS_Store
 Thumbs.db
+# Firebase
+.firebase/
+firebase-debug.log
