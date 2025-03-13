@@ -1,0 +1,13 @@
+.angular
+dist
+node_modules
+# IDE files
+.idea
+.vscode
+*.sublime-workspace
+# Environment files
+.env
+.env.local
+# System Files
+.DS_Store
+Thumbs.db
