@@ -1,0 +1,69 @@
+<div class="date-picker-container" #container>
+  <div class="date-input-container" (click)="toggleCalendar()">
+    <input
+      type="text"
+      class="date-input"
+      [value]="formatDate(selectedDate)"
+      readonly
+      placeholder="No Date"
+    />
+    <span class="calendar-icon">📅</span>
+  </div>
+
+  <div class="calendar-popup" *ngIf="showCalendar">
+    <!-- Different quick select options based on which date picker it is -->
+    <div class="quick-select">
+      <!-- For the second date picker (End Date) -->
+      <ng-container *ngIf="isEndDatePicker">
+        <button type="button" (click)="clearDate($event)">No date</button>
+        <button type="button" (click)="selectToday($event)">Today</button>
+      </ng-container>
+      
+      <!-- For the first date picker (Start Date) -->
+      <ng-container *ngIf="!isEndDatePicker">
+        <button type="button" (click)="selectToday($event)">Today</button>
+        <button type="button" (click)="selectNextMonday($event)">Next Monday</button>
+        <button type="button" (click)="selectNextTuesday($event)">Next Tuesday</button>
+        <button type="button" (click)="selectNextWeek($event)">After 1 week</button>
+      </ng-container>
+    </div>
+    
+    <!-- Rest of the calendar remains unchanged -->
+    
+    <div class="calendar-header">
+      <button type="button" (click)="previousMonth($event)">◀</button>
+      <span>{{ currentMonth }} {{ currentYear }}</span>
+      <button type="button" (click)="nextMonth($event)">▶</button>
+    </div>
+
+    <div class="calendar-grid">
+      <div class="weekdays">
+        <div *ngFor="let day of weekDays">{{ day }}</div>
+      </div>
+      <div class="days">
+        <div
+          *ngFor="let day of calendarDays"
+          class="day"
+          [class.other-month]="day.getMonth() !== currentDate.getMonth()"
+          [class.selected]="isSelected(day)"
+          [class.today]="isToday(day)"
+          [class.disabled]="isDisabled(day)"
+          (click)="!isDisabled(day) && selectDate(day)"
+        >
+          {{ day.getDate() }}
+        </div>
+      </div>
+    </div>
+
+    <div class="calendar-footer">
+      <div class="date-display">
+        <span class="calendar-icon-small">📅</span>
+        <span>{{ formatDate(tempSelectedDate || selectedDate) }}</span>
+      </div>
+      <div class="actions">
+        <button class="btn-cancel" (click)="cancel()">Cancel</button>
+        <button class="btn-save" (click)="save()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

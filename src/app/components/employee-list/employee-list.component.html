@@ -1,0 +1,95 @@
+<div class="employee-list">
+  <h1>Employee List</h1>
+  
+  <ng-container *ngIf="currentEmployees().length > 0">
+    <h2>Current employees</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Start Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of currentEmployees()">
+            <td>
+              <div class="employee-name">
+                <div class="avatar">{{employee.name[0]}}</div>
+                {{employee.name}}
+              </div>
+            </td>
+            <td>
+              <span class="role-badge">{{employee.role}}</span>
+            </td>
+            <td>{{formatDate(employee.startDate)}}</td>
+            <td>
+              <div class="actions">
+                <button class="edit-btn" (click)="editEmployee(employee)">
+                  <img src="assets/icons/edit.svg" alt="Edit">
+                  <span>Edit</span>
+                </button>
+                <button class="delete-btn" (click)="deleteEmployee(employee)">
+                  <img src="assets/icons/trash.svg" alt="Delete">
+                  <span>Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="previousEmployees().length > 0">
+    <h2>Previous employees</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Period</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of previousEmployees()">
+            <td>
+              <div class="employee-name">
+                <div class="avatar">{{employee.name[0]}}</div>
+                {{employee.name}}
+              </div>
+            </td>
+            <td>
+              <span class="role-badge">{{employee.role}}</span>
+            </td>
+            <td>{{formatDate(employee.startDate)}} - {{formatDate(employee.endDate!)}}</td>
+            <td>
+              <div class="actions">
+                <button class="edit-btn" (click)="editEmployee(employee)">
+                  <img src="assets/icons/edit.svg" alt="Edit">
+                  <span>Edit</span>
+                </button>
+                <button class="delete-btn" (click)="deleteEmployee(employee)">
+                  <img src="assets/icons/trash.svg" alt="Delete">
+                  <span>Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+
+  <div *ngIf="!currentEmployees().length && !previousEmployees().length" 
+       class="no-records">
+    <img src="assets/no-records.svg" alt="No records found">
+    <p>No employee records found</p>
+  </div>
+
+  <button class="fab" (click)="addEmployee()">+</button>
+</div>

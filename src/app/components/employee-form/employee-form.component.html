@@ -1,0 +1,78 @@
+<div class="employee-form">
+  <h1>{{isEdit() ? 'Edit' : 'Add'}} Employee Details</h1>
+  
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>
+        <span class="icon">
+          <img src="assets/icons/user.svg" alt="User">
+        </span>
+        <input 
+          type="text" 
+          formControlName="name" 
+          placeholder="Employee name"
+          [class.invalid]="nameControl?.invalid && nameControl?.touched">
+      </label>
+      <div class="error-message" *ngIf="nameControl?.invalid && nameControl?.touched">
+        <span *ngIf="nameControl?.errors?.['required']">Name is required</span>
+        <span *ngIf="nameControl?.errors?.['minlength']">Name must be at least 2 characters</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>
+        <span class="icon">
+          <img src="assets/icons/briefcase.svg" alt="Role">
+        </span>
+        <select formControlName="role" [class.invalid]="roleControl?.invalid && roleControl?.touched">
+          <option value="" disabled selected>Select role</option>
+          <option *ngFor="let role of roles" [value]="role">
+            {{role}}
+          </option>
+        </select>
+      </label>
+      <div class="error-message" *ngIf="roleControl?.invalid && roleControl?.touched">
+        <span *ngIf="roleControl?.errors?.['required']">Role is required</span>
+      </div>
+    </div>
+
+    <div class="date-range">
+      <div class="form-group date-group" style="flex: 1;">
+        <div class="date-input-container">
+          <span class="icon">
+            <img src="assets/icons/calendar.svg" alt="Start Date">
+          </span>
+          <!-- First date picker (Start Date) -->
+          <app-date-picker
+            [selectedDate]="employeeForm.get('startDate')?.value"
+            [minDate]="minStartDate"
+            [isEndDatePicker]="false"
+            (dateChange)="handleStartDateChange($event)">
+          </app-date-picker>
+        </div>
+      </div>
+
+      <span class="date-separator">→</span>
+
+      <div class="form-group date-group" style="flex: 1;">
+        <div class="date-input-container">
+          <span class="icon">
+            <img src="assets/icons/calendar.svg" alt="End Date">
+          </span>
+          <!-- Second date picker (End Date) -->
+          <app-date-picker
+            [selectedDate]="employeeForm.get('endDate')?.value"
+            [minDate]="employeeForm.get('startDate')?.value"
+            [isEndDatePicker]="true"
+            (dateChange)="handleEndDateChange($event)">
+          </app-date-picker>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="cancel" (click)="cancel()">Cancel</button>
+      <button type="submit" class="save">Save</button>
+    </div>
+  </form>
+</div>
